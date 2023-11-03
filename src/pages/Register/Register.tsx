@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 interface FormRegister {
   displayName : string;
@@ -9,6 +10,8 @@ interface FormRegister {
 }
 
 export default function Register() {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState<FormRegister> ({
     displayName: "",
     username: "",
@@ -32,8 +35,18 @@ export default function Register() {
     setError(''); //clear previous error
     console.log("test")
 
-    if (formData.username.length !== 8) {
-      setError('Username must be 8 characters long');
+    if (formData.username.length < 8) {
+      setError('Username must be at least 8 characters long');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setError('Password too short, at least 8 characters');
+      return;
+    }
+
+    if (!/\d/.test(formData.password)) {
+      setError('Password must be at least consist one number')
       return;
     }
 
@@ -51,8 +64,8 @@ export default function Register() {
     }
 
     try {
-      const url = import.meta.env.SERVER_URL;
-      const response = await fetch (`${url}/register`, {
+      const url = import.meta.env.VITE_SERVER_URL;
+      const response = await fetch (`${url}/user/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,12 +76,15 @@ export default function Register() {
       const responseData = await response.json(); // Parse the response data
       console.log(responseData); // Log the response data from the server
       if (response.ok) {
-        console.log('Registration successful');
+        navigate('/login');
+        console.log('success');
+
       } else {
-        setError('Registration failed'); // Handle registration failure
+        setError(responseData.message); // Handle registration failure
+
       }
     } catch (error) {
-      setError('Api error, registration failed');
+      console.error(error)
     }
 
   }
@@ -78,10 +94,10 @@ export default function Register() {
       <div className="w-screen h-screen bg-blue50 flex flex-row items-center">
 
         <div className="right-container w-[50%] md:w-full px-10 ">
-          <div className="login-container w-full flex flex-col pt-10 text-center rounded-3xl bg-yellow100 min-h-[70vh] shadow-lg">
+          <div className="login-container w-full max-h-[100vh] flex flex-col pt-10 text-center rounded-3xl bg-yellow100 min-h-[70vh] shadow-lg">
             <p className="text-3xl text-blue400">Sign Up</p>
             <p className="text-md text-blue300 mb-5">for premium app</p>
-            <form onSubmit={handleSubmit} className="flex flex-col w-full h-full px-10 pt-5 pb-10" action="">
+            <form onSubmit={handleSubmit} className="flex flex-col w-full h-full px-10 pt-5 pb-5" action="">
 
               <label htmlFor="displayName" className="self-start text-sm px-2 text-blue300">Name</label>
               <input 
@@ -127,8 +143,8 @@ export default function Register() {
                 onChange={handleInputChange}
                 name = "confirmPassword"
                 required/>
-               <p className="self-start text-sm px-5 text-red100">{error}</p> 
-              <button type="submit" className="btn-var1">Sign Up</button>
+              <p className="self-start text-sm px-5 text-red100 mt-3">{error}</p> 
+              <button type="submit" className="btn-var1 w-[50%] self-center mt-5">Sign Up</button>
             </form>
 
             <p className="text-sm mb-20">Already have an account?<a href="login" className="text-blue350 hover:text-blue400"> Sign In</a></p>
