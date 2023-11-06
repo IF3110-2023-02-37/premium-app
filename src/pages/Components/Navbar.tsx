@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+  // remove the token from localStorage
+  localStorage.removeItem("token");
+
+  if (localStorage.getItem("token") === null) {
+    navigate('/login');
+  } else {
+    console.log("failed to remove token")
+  }
+}
+
+  
   return (
     <nav className="max-w-[100vw] w-[100vw] bg-blue-500 p-4 bg-blue300 over fixed">
       <div className="text-white100">
@@ -12,7 +27,7 @@ export default function Navbar() {
             <Link to="/feedback" className="hover:opacity-100  opacity-75">Feedback</Link>
           </li>
           <li>
-            <Link to="/feedback" className="hover:opacity-100  opacity-75">Logout</Link>
+            <button onClick={handleLogout} className="hover:opacity-100  opacity-75">Logout</button>
           </li>
           <li>
             <Link to="/profile">
