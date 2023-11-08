@@ -29,3 +29,27 @@
   font-weight: 600;
   line-height: normal;
 }
+
+.cancel-btn {
+  color: var(--salmon200);
+  border-radius: 5px;
+  padding: 0.1rem 1rem;
+}
+
+.cancel-btn:hover {
+  background-color: #efd7c962;
+  cursor: pointer;
+}
+
+.add-btn {
+  background-color: var(--salmon100);
+  border-radius: 5px;
+  border: var(--salmon100) 1px solid;
+  padding: 0.1rem 1rem;
+  color: var(--salmon200);
+}
+
+.add-btn:hover {
+  border: var(--salmon200) 1px solid;
+  cursor: pointer;
+}

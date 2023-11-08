@@ -44,6 +44,7 @@ export default function Login() {
       if (response.ok) {
         // navigate("/home")
         console.log(responseData.user.role)
+        localStorage.setItem('user', JSON.stringify(responseData.user))
         if (responseData.token) {
           localStorage.setItem('token', responseData.token);
           if (responseData.user.role === "user") {
