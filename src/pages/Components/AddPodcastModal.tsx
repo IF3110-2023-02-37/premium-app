@@ -1,14 +1,9 @@
 import { FormEvent, useState } from "react";
+import { Podcast, PodcastData, AddPodcastModalProps } from "../../interfaces";
 
-interface UserData {
-  podcaster: string,
-  audio: string, // Assuming audio is a string
-  title: string,
-  picture: string, // Assuming cover is a string
-}
 
-export default function AddPodcastModal() {
-  
+export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps) {
+  const [error, setError] = useState<string>('');
   const closeHandler = () => {
     const modal = document.getElementById('AddPodcastModal');
     if (modal) {
@@ -21,20 +16,22 @@ export default function AddPodcastModal() {
     }
   }
 
-  const [error, setError] = useState<string>('');
   
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const titleElement = document.getElementById('title') as HTMLInputElement;
     let title = titleElement ? titleElement.value : null; 
-    let audio = ""
-    let cover = ""
+    let audio = "";
+    let cover = "";
 
+    let audioFile = null;
+    let coverFile = null;
 
     const audioElmt = document.getElementById('audio') as HTMLInputElement  ;
     if (audioElmt) {
       const selectedFile = audioElmt.files ? audioElmt.files[0] : null;
       if (selectedFile) {
+        audioFile = selectedFile;
         let path = selectedFile.name.replace("C:\\fakepath\\", "");
         const isMp3 = /\.mp3$/i.test(path);
         if (!isMp3) {
@@ -50,6 +47,7 @@ export default function AddPodcastModal() {
     if (coverElmt) {
       const selectedFile = coverElmt.files ? coverElmt.files[0] : null;
       if (selectedFile) {
+        coverFile = selectedFile;
         let path = selectedFile.name.replace("C:\\fakepath\\", "");
         console.log("cover path: "+path)
         const isImage = /\.(png|jpe?g)$/i.test(path);
@@ -68,7 +66,7 @@ export default function AddPodcastModal() {
       if (userString) {
         const user = JSON.parse(userString).username; // Parse the string to get the JSON object
         const token = localStorage.getItem('token')
-        const data: UserData = {
+        const data: PodcastData = {
           podcaster: user,
           audio: audio,
           title: title,
@@ -77,6 +75,7 @@ export default function AddPodcastModal() {
 
         try {
           const url = import.meta.env.VITE_SERVER_URL;
+          console.log(data)
           const response = await fetch(`${url}/podcast/create`, {
             method: 'POST',
             headers: {
@@ -88,8 +87,9 @@ export default function AddPodcastModal() {
 
           const responseData = await response.json();
           if (response.ok) {
-            // close trs tambah card
-            console.log(responseData)
+            console.log("success add podcast");
+            addNewPodcast(responseData.data)
+            closeHandler();
           } else {
             return setError(responseData.message)
           }
@@ -103,9 +103,10 @@ export default function AddPodcastModal() {
   
   return (
     <>
-      <div id="AddPodcastModal" className="fixed z-10 w-full h-full bg-black100 bg-opacity-20 backdrop-blur-[1.5px] flex justify-center items-center px-5">
+      <div className="fixed z-10 w-full h-full bg-black100 bg-opacity-20 backdrop-blur-[1.5px] flex justify-center items-center px-5">
 
-        <div className="w-full max-w-[500px] bg-yellow100 h-fit py-10 px-5 rounded-md">
+        <div className="w-full max-w-[500px] bg-yellow100 h-fit py-10 px-5 rounded-md justify-center flex flex-col">
+          <p className="self-center mb-5 text-salmon200 text-lg font-bold">Add New Podcast</p>
           <form action="" className="flex flex-col" onSubmit={handleSubmit}>
             <ul>
               <li className="flex flex-col">
@@ -135,7 +136,7 @@ export default function AddPodcastModal() {
                   className="text-sm mb-3"/>
               </li>
             </ul>
-            <p id="error" className="text-red100 text-sm">*{error}</p>
+            <p id="error" className="text-red100 text-sm">{error}</p>
             <div className="mt-10 self-end">
               <a className="cancel-btn mr-5" onClick={closeHandler}>Cancel</a>
               <button type="submit" className="add-btn">Add</button>

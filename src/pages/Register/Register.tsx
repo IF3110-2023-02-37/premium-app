@@ -1,13 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom";
-
-interface FormRegister {
-  displayName : string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { FormRegister } from "../../interfaces";
 
 export default function Register() {
   const navigate = useNavigate();

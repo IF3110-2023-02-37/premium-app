@@ -1,10 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface FormLogin {
-  username: string;
-  password: string;
-}
+import { FormLogin } from "../../interfaces";
 
 export default function Login() {
   const [formData, setFormData] = useState<FormLogin> ({
