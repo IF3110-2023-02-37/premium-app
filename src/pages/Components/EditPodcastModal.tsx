@@ -104,8 +104,9 @@ export default function EditPodcastModal() {
             title && (title.innerText = dataToUpdate.title);
           }
           if (dataToUpdate.picture) {
-            const url = import.meta.env.SERVER_URL;
+            const url = import.meta.env.VITE_SERVER_URL;
             const cover = document.getElementById(`cover-${id}`) as HTMLImageElement
+            console.log(dataToUpdate)
             cover && (cover.src = `${url}/cover/${dataToUpdate.picture}`);
           }
         } else {
