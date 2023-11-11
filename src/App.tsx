@@ -2,6 +2,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import SubsRequest from './pages/SubsRequest/SubsRequest';
 import ManagePodcast from './pages/ManagePodcast/ManagePodcast';
+import Profile from './pages/Profile/Profile';
 import { Route, Navigate, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import { JSX } from 'react';
 import { getRole } from './utils/auth';
@@ -97,6 +98,14 @@ const router = createBrowserRouter (
         element={
           <ProtectedRoute role={"user"} path="/feedback">
             <ManagePodcast />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute role={"user"} path="/profile">
+            <Profile />
           </ProtectedRoute>
         }
       />

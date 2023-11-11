@@ -60,7 +60,7 @@ export default function DeletePodcastModal({ deletePodcast }: DeletePodcastModal
        <div className="w-full max-w-[400px] bg-yellow100 h-fit py-10 px-5 rounded-md flex flex-col">
          <p className="text-center mb-10">Are you sure want to delete this podcast?</p>
          <form onSubmit={deleteHandler} className="self-center">
-            <button className="cancel-btn mr-5" onClick={closeHandler}>Cancel</button>
+            <a className="cancel-btn mr-5" onClick={closeHandler}>Cancel</a>
             <button className="add-btn" type="submit">Delete</button>
          </form>
  
