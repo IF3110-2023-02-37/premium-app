@@ -79,7 +79,7 @@ export default function Profile() {
         const url = import.meta.env.VITE_SERVER_URL;
         // console.log(data)
         const token = localStorage.getItem('token')
-        const response = await fetch(`${url}/user/update/${userObject.username}`, {
+        const response = await fetch(`${url}/user/${userObject.username}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

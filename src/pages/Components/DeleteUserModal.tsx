@@ -20,7 +20,7 @@ export default function DeleteUserModal() {
       try {
         const url = import.meta.env.VITE_SERVER_URL;
         const token = localStorage.getItem('token')
-        const response = await fetch(`${url}/user/delete/${userObject.username}`, {
+        const response = await fetch(`${url}/user/${userObject.username}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

@@ -21,15 +21,15 @@ export default function DeletePodcastModal({ deletePodcast }: DeletePodcastModal
 
   const deleteHandler = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let id = "";
+    let id = null;
     const elmt = document.getElementById("DeletePodcastModal")?.dataset.info;
     if (elmt) {
-      id = elmt;
-      console.log(elmt);
+      id = parseInt(elmt);
+      console.log(typeof id);
       try {
         const url = import.meta.env.VITE_SERVER_URL;
         const token = localStorage.getItem('token')
-        const response = await fetch(`${url}/podcast/delete/${id}`, {
+        const response = await fetch(`${url}/podcast/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
