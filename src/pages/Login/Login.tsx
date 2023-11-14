@@ -73,7 +73,7 @@ export default function Login() {
         <div className="right-container w-[50%] md:w-full px-10 ">
           <div className="login-container w-full flex flex-col pt-10 text-center rounded-3xl bg-yellow100 min-h-[70vh] shadow-lg">
             <p className="text-3xl text-blue400">Login</p>
-            <p className="text-md text-blue200 mb-5">for premium app</p>
+            <p className="text-md text-blue200 mb-5">for podcaster</p>
             <form onSubmit={handleSubmit} className="flex flex-col w-full h-full px-10 pt-5 pb-10" action="">
 
               <label htmlFor="username" className="self-start text-sm px-2 text-blue300">Username</label>
