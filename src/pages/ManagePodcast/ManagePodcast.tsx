@@ -41,7 +41,7 @@ export default function ManagePodcast() {
   const fetchData = async(username: string, token: any) => {
     try {
       const url = import.meta.env.VITE_SERVER_URL;
-      const response = await fetch(`${url}/podcast/read/${username}`, {
+      const response = await fetch(`${url}/podcast/${username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

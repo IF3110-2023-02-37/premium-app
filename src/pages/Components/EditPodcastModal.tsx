@@ -85,7 +85,7 @@ export default function EditPodcastModal() {
         const url = import.meta.env.VITE_SERVER_URL;
         // console.log(data)
         const token = localStorage.getItem('token')
-        const response = await fetch(`${url}/podcast/update/${id}`, {
+        const response = await fetch(`${url}/podcast/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -114,47 +114,6 @@ export default function EditPodcastModal() {
         }
       } catch (error) {
         console.log(error)
-      }
-    }
-
-    if (audio && title && cover) {
-      const userString = localStorage.getItem('user') ; // Retrieve the item as a string
-      if (userString) {
-        const user = JSON.parse(userString).username; // Parse the string to get the JSON object
-        const token = localStorage.getItem('token')
-        const data: PodcastData = {
-          podcaster: user,
-          audio: audio,
-          title: title,
-          picture: cover
-        };
-
-        try {
-          const url = import.meta.env.VITE_SERVER_URL;
-          console.log(data)
-          const response = await fetch(`${url}/podcast/create`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify(data)
-          });
-
-          const responseData = await response.json();
-          if (response.ok) {
-            // close trs tambah card
-            console.log("success add podcast")
-            closeHandler();
-          } else {
-            return setError(responseData.message)
-          }
-
-            
-        
-        } catch (error) {
-          console.log(error)
-        }
       }
     }
   }

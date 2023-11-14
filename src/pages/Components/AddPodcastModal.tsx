@@ -76,7 +76,7 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
         try {
           const url = import.meta.env.VITE_SERVER_URL;
           console.log(data)
-          const response = await fetch(`${url}/podcast/create`, {
+          const response = await fetch(`${url}/podcast`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
