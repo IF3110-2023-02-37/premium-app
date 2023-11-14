@@ -113,8 +113,9 @@ export default function ManagePodcast() {
           </a>
 
           <div className="list-podcast">
-            {currentPodcasts.map((podcast) => (
-              <div className="podcast w-full px-5 py-2 flex justify-between bg-blue50 mb-5 rounded-md" key={podcast.id} id={"podcast-" + podcast.id}>
+            {currentPodcasts.length > 0 ? (
+              currentPodcasts.map((podcast) => (
+                <div className="podcast w-full px-5 py-2 flex justify-between bg-blue50 mb-5 rounded-md" key={podcast.id} id={"podcast-" + podcast.id}>
                 <div className="flex">
                   <img id={"cover-" + podcast.id} src={url + "/cover/" + podcast.picture} className="w-[60px] rounded-md mr-3 cover" alt="" />
                   <div className="text-md">
@@ -133,7 +134,10 @@ export default function ManagePodcast() {
                   </button>
                 </div>
               </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-black100 text-opacity-70 text-center">Empty list. Add new podcasts!</p>
+            )}
           </div>
 
           {/* Pagination */}

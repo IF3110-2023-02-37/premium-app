@@ -45,6 +45,9 @@ export default function Login() {
           localStorage.setItem('token', responseData.token);
           if (responseData.user.role === "user") {
             navigate('/manage-podcast')
+          } 
+          if (responseData.user.role === "admin") {
+            navigate('/subsrequest')
           }
 
         } else {
