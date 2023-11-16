@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Podcast, PodcastData, AddPodcastModalProps } from "../../interfaces";
+import {  PodcastData, AddPodcastModalProps } from "../../interfaces";
 
 
 export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps) {
@@ -27,6 +27,7 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
     let audioFile = null;
     let coverFile = null;
 
+    // validasi audio
     const audioElmt = document.getElementById('audio') as HTMLInputElement  ;
     if (audioElmt) {
       const selectedFile = audioElmt.files ? audioElmt.files[0] : null;
@@ -43,13 +44,13 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
       }
     }
 
+    // validasi cover
     const coverElmt = document.getElementById('cover') as HTMLInputElement  ;
     if (coverElmt) {
       const selectedFile = coverElmt.files ? coverElmt.files[0] : null;
       if (selectedFile) {
         coverFile = selectedFile;
         let path = selectedFile.name.replace("C:\\fakepath\\", "");
-        console.log("cover path: "+path)
         const isImage = /\.(png|jpe?g)$/i.test(path);
 
         if (!isImage) {
@@ -61,10 +62,11 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
       }
     }
 
+
     if (audio && title && cover) {
-      const userString = localStorage.getItem('user') ; // Retrieve the item as a string
+      const userString = localStorage.getItem('user') ; 
       if (userString) {
-        const user = JSON.parse(userString).username; // Parse the string to get the JSON object
+        const user = JSON.parse(userString).username; // Parse user to get the JSON object
         const token = localStorage.getItem('token')
         const data: PodcastData = {
           podcaster: user,
@@ -75,7 +77,6 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
 
         try {
           const url = import.meta.env.VITE_SERVER_URL;
-          console.log(data)
           const response = await fetch(`${url}/podcast`, {
             method: 'POST',
             headers: {
@@ -86,15 +87,68 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
           });
 
           const responseData = await response.json();
+          const id  = responseData.data.id;
+          
+          let audioName = "audio-" + id + ".mp3";
+          if (audioFile) {
+            let formData = new FormData();
+            audioFile = new File([audioFile], audioName, { type: audioFile.type });
+            formData.append('file', audioFile);
+  
+            const audioResponse = await fetch(`${url}/upload/audio`, {
+              method: 'POST',
+              body: formData
+            });
+  
+            if (!audioResponse.ok) {
+              console.log("Error adding audio");
+              // Handle the error if needed
+            }
+          }
+  
+          let coverName = "cover-" + id + ".jpg";
+          if (coverFile) {
+            let formData = new FormData();
+            coverFile = new File([coverFile], coverName, { type: coverFile.type });
+            formData.append('file', coverFile);
+  
+            const coverResponse = await fetch(`${url}/upload/cover`, {
+              method: 'POST',
+              body: formData
+            });
+  
+            if (!coverResponse.ok) {
+              console.log("Error adding cover");
+              // Handle the error if needed
+            }
+          }
+
+
+          const dataToUpdate: Record<string, any> = {};
+          dataToUpdate.audio = audioName;
+          dataToUpdate.picture = coverName;
+          
+          const responseUpdate = await fetch(`${url}/podcast/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(dataToUpdate)
+          });
+          const updateData = await responseUpdate.json();
+
           if (response.ok) {
-            console.log("success add podcast");
-            addNewPodcast(responseData.data)
+            console.log("Success adding podcast");
+            addNewPodcast(updateData.data);
+            console.log("hai");
             closeHandler();
           } else {
-            return setError(responseData.message)
+            setError(responseData.message);
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
+          // Handle the error if needed
         }
       }
     }

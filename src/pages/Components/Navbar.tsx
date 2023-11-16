@@ -5,15 +5,15 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-  // remove the token from localStorage
-  localStorage.removeItem("token");
+    // remove the token from localStorage
+    localStorage.removeItem("token");
 
-  if (localStorage.getItem("token") === null) {
-    navigate('/login');
-  } else {
-    console.log("failed to remove token")
+    if (localStorage.getItem("token") === null) {
+      navigate('/login');
+    } else {
+      console.log("failed to remove token")
+    }
   }
-}
 
   
   return (
