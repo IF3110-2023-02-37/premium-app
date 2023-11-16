@@ -6,6 +6,7 @@ import Profile from './pages/Profile/Profile';
 import { Route, Navigate, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import { JSX } from 'react';
 import { getRole } from './utils/auth';
+import Feedback from './pages/Feedback/Feedback';
 
 
 type CustomRoute = {
@@ -97,7 +98,7 @@ const router = createBrowserRouter (
         path="/feedback"
         element={
           <ProtectedRoute role={"user"} path="/feedback">
-            <ManagePodcast />
+            <Feedback />
           </ProtectedRoute>
         }
       />
