@@ -13,7 +13,7 @@ export default function Feedback() {
   const fetchData = async(username: string, token: any) => {
     try {
       const url = import.meta.env.VITE_SERVER_URL;
-      const response = await fetch(`${url}/review/getreview/${username}`, {
+      const response = await fetch(`${url}/review/${username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
