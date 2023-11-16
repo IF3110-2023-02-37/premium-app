@@ -86,3 +86,10 @@
 .hide {
   visibility: hidden;
 }
+
+.select {
+  background-color: rgba(255, 255, 255, 0.648);
+  border-radius: 5px;
+  padding-left:5px;
+  width: 6rem;
+}

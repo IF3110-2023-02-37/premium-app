@@ -33,18 +33,19 @@ export default function Profile() {
   const submitHandler = async () => {
     let picture = "";
     let description = "";
-
+    let pictureFile = null;
     const pic = document.getElementById("upload-image") as HTMLInputElement
     if (pic) {
       const selectedFile = pic.files ? pic.files[0] : null;
       if (selectedFile) {
+        pictureFile = selectedFile;
         picture = selectedFile.name.replace("C:\\fakepath\\", "");
         const isImage = /\.(png|jpe?g)$/i.test(picture);
 
         if (!isImage) {
-          console.log("Please input cover in png or jpg format");
+          return setError("Please input cover in png or jpg format");
         } 
-        // cover = path;
+        picture = "profile-" + userObject.username + ".jpg";
       } 
     }
 
@@ -88,15 +89,33 @@ export default function Profile() {
           body: JSON.stringify(dataToUpdate)
         });
 
+        if (pictureFile !== null) {
+          let formData = new FormData();
+            pictureFile = new File([pictureFile], picture, { type: pictureFile.type });
+            formData.append('file', pictureFile);
+  
+            const coverResponse = await fetch(`${url}/upload/profile`, {
+              method: 'POST',
+              body: formData
+            });
+  
+            if (!coverResponse.ok) {
+              console.log("Error adding profile");
+              // Handle the error if needed
+            }
+        }
+
         const responseData = await response.json();
         if (response.ok) {
           console.log("success update profile")
           setSuccess("Profile Updated")
           if (dataToUpdate.picture) {
             const url = import.meta.env.VITE_SERVER_URL;
-            const frame = document.getElementById(`frame`) as HTMLImageElement
-            console.log(dataToUpdate)
-            frame.style.backgroundImage = `url(${url}/profile/${dataToUpdate.picture})`;
+            const frame = document.getElementById(`frame`);
+            if (frame) {
+              frame.style.backgroundImage = `url(${url}/profile/${userObject.picture})`;
+              console.log(`url(${url}/profile/${userObject.picture})`);
+            }
           }
           
           // Store the updated data back in localStorage
@@ -104,7 +123,7 @@ export default function Profile() {
           userObject = updatedUserString;
           localStorage.removeItem("user");
           localStorage.setItem("user", updatedUserString);
-
+          console.log(localStorage.getItem("user"))
         } else {
           return setError(responseData.message)
         }

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { getAuthData } from "../../utils/auth"
 
 const data = [
@@ -24,12 +25,23 @@ const data = [
 ]
 
 export default function SubsRequest() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // remove the token from localStorage
+    localStorage.removeItem("token");
+
+    if (localStorage.getItem("token") === null) {
+      navigate('/login');
+    } else {
+      console.log("failed to remove token")
+    }
+  }
   return (
     <>
       <div className="bg-blue100 w-full min-h-[100vh] flex flex-col  px-5 py-2 items-center">
         <div className="flex items-center bg-blue300  w-full h-fit justify-end px-5 py-2 rounded-md bg-opacity-80  backdrop-blur-[2.5px]">
           <button className="mr-5 text-md text-white100">Subscription Request</button>
-          <button className="bg-salmon100 text-md text-salmon200 rounded-md w-fit  py-2 px-4">Logout</button>
+          <button className="bg-salmon100 text-md text-salmon200 rounded-md w-fit  py-2 px-4" onClick={handleLogout}>Logout</button>
         </div>
         <div className="w-full max-w-[800px] flex flex-col gap-5 mt-5">
           {data.map((subs) => (

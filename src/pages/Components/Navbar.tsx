@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_SERVER_URL
+  const userData = localStorage.getItem('user');
+  let userObject: any;
+  if (userData) {
+    userObject = JSON.parse(userData);
+    console.log(userObject)
+  }
 
   const handleLogout = () => {
     // remove the token from localStorage
@@ -33,7 +40,8 @@ export default function Navbar() {
             </li>
             <li>
               <Link to="/profile">
-                <img src="image/profile/default.jpg" className="w-10 h-10 rounded-full opacity-90 hover:shadow-3xl hover:opacity-100" alt="" />
+                <img src={url + "/profile/" + userObject.picture} className="w-10 h-10 rounded-full opacity-90 hover:shadow-3xl hover:opacity-100" alt="" />
+                
               </Link>
             </li>
             

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FormEvent } from "react";
-import { PodcastData } from "../../interfaces";
 
 export default function EditPodcastModal() {
   const [error, setError] = useState<string>("")
@@ -45,7 +44,7 @@ export default function EditPodcastModal() {
         if (!isMp3) {
           return setError("Please input audio in mp3 format");
         } 
-        audio = path;
+        audio = "audio-" + id + ".mp3";
       } 
     }
 
@@ -61,7 +60,7 @@ export default function EditPodcastModal() {
         if (!isImage) {
           return setError("Please input cover in png or jpg format");
         } 
-        cover = path;
+        cover = "cover-" + id + ".jpg";
       } 
     }
 
@@ -94,11 +93,44 @@ export default function EditPodcastModal() {
           body: JSON.stringify(dataToUpdate)
         });
 
+        if (audioFile !== null) {
+          let audioName = "audio-" + id + ".mp3";
+          let formData = new FormData();
+            audioFile = new File([audioFile], audioName, { type: audioFile.type });
+            formData.append('file', audioFile);
+  
+            const audioResponse = await fetch(`${url}/upload/audio`, {
+              method: 'POST',
+              body: formData
+            });
+  
+            if (!audioResponse.ok) {
+              console.log("Error adding audio");
+              // Handle the error if needed
+            }
+        }
+
+        if (coverFile !== null) {
+          let coverName = "cover-" + id + ".jpg";
+          let formData = new FormData();
+            coverFile = new File([coverFile], coverName, { type: coverFile.type });
+            formData.append('file', coverFile);
+  
+            const coverResponse = await fetch(`${url}/upload/cover`, {
+              method: 'POST',
+              body: formData
+            });
+  
+            if (!coverResponse.ok) {
+              console.log("Error adding cover");
+              // Handle the error if needed
+            }
+        }
+
         const responseData = await response.json();
         if (response.ok) {
           // close trs tambah card
           console.log("success update podcast")
-          closeHandler();
           if (dataToUpdate.title) {
             const title = document.getElementById(`title-${id}`)
             title && (title.innerText = dataToUpdate.title);
@@ -106,9 +138,10 @@ export default function EditPodcastModal() {
           if (dataToUpdate.picture) {
             const url = import.meta.env.VITE_SERVER_URL;
             const cover = document.getElementById(`cover-${id}`) as HTMLImageElement
-            console.log(dataToUpdate)
             cover && (cover.src = `${url}/cover/${dataToUpdate.picture}`);
+            console.log(dataToUpdate.picture)
           }
+          closeHandler();
         } else {
           return setError(responseData.message)
         }
