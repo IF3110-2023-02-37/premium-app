@@ -1,27 +1,55 @@
-# React + TypeScript + Vite
+# REST Service
+## Tugas Besar 2 IF3110
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Deskripsi singkat
+Aplikasi web front-end untuk melakukan manajemen podcast oleh podcaster yang dapat diakses oleh subscribernya. Selain itu, aplikasi ini dapat digunakan untuk melakukan penerimaan atau penolakan oleh admin pada request subscription .
 
-Currently, two official plugins are available:
+### Install and Run
+1. Clone repository
+2. `docker-compose up`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Screenshot Aplikasi
+1. Halaman Login
+![Login](assets/login.jpg)
 
-## Expanding the ESLint configuration
+2. Halaman Register
+![Register](assets/register.jpg)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+3. Halaman Subscription Request
+![Subscription Request](assets/subscription.jpg)
 
-- Configure the top-level `parserOptions` property like this:
+4. Halaman Manage Podcast
+![Manage Podcast](assets/podcastpage.jpg)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+5. Add Podcast
+![Add Podcast](assets/addpodcast.jpg)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+6. Delete Podcast
+![Delete Podcast](assets/deletepodcast.jpg)
+
+7. Halaman Feedback
+![Feedback](assets/feedback.jpg)
+
+8. Halaman Profile
+![Profile](assets/profile.jpg)
+
+9. Delete Account
+![Delete Account](assets/deleteprofile.jpg)
+
+
+### Pembagian Tugas
+- SPA
+    - Docker: 13521120
+    - Routing and Auth: 13521120
+    - Components: 13521120
+    - Register, Login: 13521120
+    - Feedback: 13521050 
+    - Subscription Request: 13521050 
+    - Profile: 13521168
+    - Manage Podcast: 13521120
+
+
+### Kelompok 37:
+- 13521050 Naufal Syifa Firdaus
+- 13521120 Febryan Arota Hia
+- 13521168 Satria Octavianus Nababan
