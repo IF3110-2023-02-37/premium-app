@@ -69,25 +69,22 @@ export default function Feedback() {
               <option selected>Rate</option>
               {options} 
             </select>
-            <select className="select">
-              <option selected>Title</option>
-              {options} 
-            </select>
+
           </div>
 
           <div className="container mb-20">
             {filteredReviews.map((review) => (
-              <div className="card w-full bg-white100 rounded-lg p-5 mt-5">
+              <div className="card w-full bg-blue50 rounded-lg p-5 mt-5">
                 <div className="flex justify-between">
                   <div>
                     <div></div>
-                    <div className="text-lg">{review.reviewer}</div>
+                    <div className="text-medium font-medium">{review.reviewer}</div>
                   </div>
                   
                   <div>{review.rating}/5</div>
                 </div>
                 <p className="text-sm mb-5">{review.podcast.title}</p>
-                <p>{review.review}</p>
+                <p className="font-semibold">{review.review}</p>
                 <p className="mt-5 text-sm">{review.date}</p>
               </div>
             ))}

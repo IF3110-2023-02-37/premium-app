@@ -160,7 +160,7 @@ export default function AddPodcastModal({ addNewPodcast }: AddPodcastModalProps)
       <div className="fixed z-10 w-full h-full bg-black100 bg-opacity-20 backdrop-blur-[1.5px] flex justify-center items-center px-5">
 
         <div className="w-full max-w-[500px] bg-yellow100 h-fit py-10 px-5 rounded-md justify-center flex flex-col">
-          <p className="self-center mb-5 text-salmon200 text-lg font-bold">Add New Podcast</p>
+          <p className="self-center mb-5 font-semibold text-salmon200 text-lg">Add New Podcast</p>
           <form action="" className="flex flex-col" onSubmit={handleSubmit}>
             <ul>
               <li className="flex flex-col">
