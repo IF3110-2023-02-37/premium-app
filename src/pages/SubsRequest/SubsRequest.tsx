@@ -48,8 +48,8 @@ export default function SubsRequest() {
             subs.status === "pending" && (
               <div className="flex hover:bg-blue200 px-3 py-2 rounded-r-md">
                 <div className="wrapper-info flex flex-col w-full">
-                  <p>{subs.username}</p>
-                  <p>{subs.podcast}</p>
+                  <p className="text-xl font-semibold">{subs.username}</p>
+                  <p className="text-base">{subs.podcast}</p>
                 </div>
                 <div className="button-wrapper flex gap-5">
                   <button className="w-[35px] opacity-75 hover:opacity-100">
