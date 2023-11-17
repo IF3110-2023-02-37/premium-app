@@ -5,27 +5,23 @@ import { stat } from "fs";
 const data = [
   {
     username: "user1",
-    podcast: "podkes senin kamis",
-    idPodcast: "1",
+    podcaster: "podkes senin kamis",
     status: "rejected"
   },
   {
     username: "user2",
-    podcast: "podkes minggu malam",
-    idPodcast: "2",
+    podcaster: "podkes minggu malam",
     status: "pending"
   },
   {
     username: "user3",
-    podcast: "podkes jumat berkah",
-    status: "pending",
-    idPodcast: "3",
+    podcaster: "podkes jumat berkah",
+    status: "pending"
   },
   {
     username: "user4",
-    podcast: "podkes besok senin",
+    podcaster: "podkes besok senin",
     status: "accepted",
-    idPodcast: "4",
   }
 ]
 
@@ -41,6 +37,28 @@ export default function SubsRequest() {
       console.log("failed to remove token")
     }
   }
+  const url = import.meta.env.VITE_SERVER_URL;
+  const fetchAll = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${url}/subs`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+
+      const responseData = await response.json()
+      return responseData;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  const getdata = fetchAll();
+
+  
 
   const subsHandler = (username: string, idPodcast: string, status: string) => {
     // request disini
@@ -63,11 +81,11 @@ export default function SubsRequest() {
               <div className="flex hover:bg-blue200 px-3 py-2 rounded-md">
                 <div className="wrapper-info flex flex-col w-full">
                   <p>{subs.username}</p>
-                  <p>{subs.podcast}</p>
+                  <p>{subs.podcaster}</p>
                 </div>
                 <div className="button-wrapper flex gap-5">
                   <button className="w-[35px] opacity-75 hover:opacity-100" 
-                    onClick={() => subsHandler(subs.username, subs.idPodcast, "Accepted")}>
+                    onClick={() => subsHandler(subs.username, subs.podcaster, "Accepted")}>
                     <img src="accept.png" alt="" />
                   </button>
                   <button className="w-[35px] opacity-75 hover:opacity-100">
